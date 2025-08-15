@@ -1,0 +1,37 @@
+{% include 'navbar.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Parking Spot Details</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-4">
+    <h2 class="mb-4">All Parking Spots</h2>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Spot ID</th>
+                <th>Lot Location</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for spot in spots %}
+            <tr>
+                <td>{{ spot.id }}</td>
+                <td>{{ spot.lot.prime_location_name }}</td>
+                <td>
+                    {% if spot.status == 'O' %}
+                        <span class="badge bg-danger">Occupied</span>
+                    {% else %}
+                        <span class="badge bg-success">Available</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

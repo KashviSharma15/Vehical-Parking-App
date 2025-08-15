@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Parking History</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('/static/bg.jpg');
+            background-size: cover;
+        }
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 5% auto;
+            background-color: rgba(255, 255, 255, 0.96);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            padding: 12px 14px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #343a40;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="container">
+        <h2>Your Parking History</h2>
+
+        {% if reservations %}
+        <table>
+            <tr>
+                <th>Lot</th>
+                <th>Spot ID</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Duration (mins)</th>
+                <th>Total Cost</th>
+                <th>Action</th>
+            </tr>
+            {% for res in reservations %}
+            <tr>
+                <td>{{ res.spot.lot.prime_location_name }}</td>
+                <td>{{ res.spot.id }}</td>
+                <td>{{ res.parking_timestamp }}</td>
+                <td>{{ res.leaving_timestamp or 'In Progress' }}</td>
+                {% if res.leaving_timestamp %}
+                  {% set duration_min = ((res.leaving_timestamp - res.parking_timestamp).total_seconds() // 60) | int %}
+                {% else %}
+                    {% set duration_min = 0 %}
+                {% endif %}
+
+                <td>
+                    {% if res.leaving_timestamp %}
+                        {{ duration_min }} 
+                    {% else %}
+                        In Progress
+                    {% endif %}
+                </td>
+                <td>
+                    {% if res.leaving_timestamp %}
+                        ₹{{ duration_min * res.cost_per_unit // 60}}                   
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+                <td>
+                    {% if not res.leaving_timestamp %}
+                    <form method="POST" action="{{ url_for('end_reservation', reservation_id=res.id) }}">
+                    <button type="submit" class="btn btn-danger btn-sm">End Parking</button>
+                    </form>
+                    {% else %}
+                    Ended
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+            <p>No reservation history available.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

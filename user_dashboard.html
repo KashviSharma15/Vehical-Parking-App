@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-image: url('/static/bg.jpg');
+        }
+        .navbar {
+            background-color: #222;
+            color: #fff;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar-left a,
+        .navbar-right a {
+            color: #fff;
+            margin-right: 15px;
+            text-decoration: none;
+        }
+        .navbar-left {
+            display: flex;
+            align-items: center;
+        }
+        .navbar-left span {
+            font-weight: bold;
+            margin-right: 20px;
+        }
+        .dashboard {
+            padding: 30px;
+        }
+        .welcome {
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .summary {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+        .box {
+            flex: 1;                         
+            margin: 0 10px; 
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            width: 250px;
+            transition: transform 0.2s ease;
+        }
+        .box:hover {
+            transform: scale(1.03);
+        }
+        .box-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        .box-value {
+            font-size: 30px;
+            color: #007bff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-left">
+            <span>SmartPark</span>
+            <a href="/user/dashboard">Dashboard</a>
+            <a href="/user/available-lots">Available Lots</a>
+            <a href="/user/reservations">My Bookings</a>
+        </div>
+        <div class="navbar-right">
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+
+    <div class="dashboard">
+        <div class="welcome">Welcome, {{ user.username }}!</div>
+
+        <div class="summary">
+            <div class="box">
+            <div class="box-title">Current Reservations</div>
+            <div class="box-value">{{ total_current_reservations }}</div>
+        </div>
+
+            <div class="box">
+                <div class="box-title">Active Spot</div>
+                <div class="box-value">
+                    {% if current_spot %}
+                        L{{ current_spot.lot_id }}/S{{ current_spot.id }}
+                    {% else %}
+                        None
+                    {% endif %}
+                </div>
+            </div>
+            <div class="box">
+                <div class="box-title">Reservation History</div>
+                <div class="box-value">{{ past_reservations_count }}</div>
+            </div>
+            <div class="box">
+                <div class="box-title">Total Time Parked</div>
+                <div class="box-value">{{ total_time }}</div>
+            </div>
+            <div class="box">
+                <div class="box-title">Total Cost Spent</div>
+                <div class="box-value">₹{{ total_cost }}</div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{% include 'navbar.html' %}
+<h2>{{ lot.name }}</h2>
+<p>Location: {{ lot.location }}</p>
+<p>Capacity: {{ lot.capacity }}</p>
+
+<h3>Parking Spots:</h3>
+<ul>
+{% for spot in lot.spots %}
+    <li>
+    Spot ID: {{ spot.id }} | Status: {{ "Available" if spot.is_available else "Occupied" }}
+    </li>
+{% endfor %}
+</ul>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-image: url('/static/bg.jpg');
+        }
+
+        h2 {
+            margin-bottom: 30px;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .box h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .box .number {
+            font-size: 28px;
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <h2>Welcome, Admin!</h2>
+
+    <div class="stats-container">
+        <div class="box">
+            <h3>Total Parking Lots</h3>
+            <div class="number">{{ total_lots }}</div>
+        </div>
+
+        <div class="box">
+            <h3>Total Parking Spots</h3>
+            <div class="number">{{ total_spots }}</div>
+        </div>
+
+        <div class="box">
+            <h3>Available Spots</h3>
+            <div class="number">{{ available_spots }}</div>
+        </div>
+
+        <div class="box">
+            <h3>Occupied Spots</h3>
+            <div class="number">{{ occupied_spots }}</div>
+        </div>
+
+        <div class="box">
+            <h3>Total Users</h3>
+            <div class="number">{{ total_users }}</div>
+        </div>
+    </div>
+
+</body>
+</html>

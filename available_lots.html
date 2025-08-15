@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Available Parking Lots</title>
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('/static/bg.jpg');
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 80%;
+            margin: 4% auto;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.92);
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .list-group {
+            list-style: none;
+            padding: 0;
+        }
+
+        .list-group-item {
+            background: white;
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .btn {
+            padding: 6px 12px;
+            font-size: 14px;
+            border-radius: 4px;
+            text-decoration: none;
+            color: white;
+            font-size: 12px;
+            padding: 5px 10px;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            border: none;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+        }
+
+        .div{
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+<body>
+
+    {% include 'navbar.html' %}
+
+    <div class="container mt-4">
+        <h2>Available Parking Lots</h2>
+
+        {% if lots %}
+            <ul class="list-group">
+                {% for lot in lots %}
+                    <li class="list-group-item">
+                        <strong>{{ lot.prime_location_name }}</strong><br>
+                        Address: {{ lot.address }}<br>
+                        Available: {{ lot.available_spots }} / {{ lot.total_spots }}
+                        <div class="div">
+                            {% if lot.available_spots > 0 %}
+                                <a href="{{ url_for('reserve_spot', lot_id=lot.id) }}" class="btn btn-success ">Reserve</a>
+                            {% else %}
+                                <button class="btn btn-secondary " disabled>Full</button>
+                            {% endif %}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No parking lots found.</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>

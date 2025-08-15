@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Parking Lot Details</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('/static/bg.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            width: 70%;
+            margin: 5% auto;
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .info {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .info strong {
+            color: #555;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .occupied {
+            color: red;
+            font-weight: bold;
+        }
+
+        .available {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+
+    <div class="container">
+        <h2>Parking Lot: {{ lot.prime_location_name }}</h2>
+
+        <div class="info">
+            <p><strong>Address:</strong> {{ lot.address }}</p>
+            <p><strong>Capacity:</strong> {{ lot.max_spots }} spots</p>
+        </div>
+
+        <h3>Parking Spots</h3>
+        {% if spots %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Spot ID</th>
+                        <th>Status</th>
+                        <th>Last Occupied</th>
+                        <th>Last Released</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for spot in spots %}
+                        <tr>
+                            <td>{{ spot.id }}</td>
+                            <td class="{{ 'occupied' if spot.is_occupied else 'available' }}">
+                                {{ 'Occupied' if spot.is_occupied else 'Available' }}
+                            </td>
+                            <td>{{ spot.occupied_at if spot.occupied_at else '—' }}</td>
+                            <td>{{ spot.released_at if spot.released_at else '—' }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No spots found for this lot.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
